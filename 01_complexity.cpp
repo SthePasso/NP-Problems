@@ -184,8 +184,8 @@ int main() {
     cout << "Duration of MergeSort: " << durationMerge.count() << " microseconds\n";
 
     // what is the memory consumption from buble vs merge?
-    // 
-    // 
+    // only 1 temp variable => O(1)
+    // create two subarray => O(n)
     return 0;
 }
  //g++ -std=c++11 01_complexity.cpp 
