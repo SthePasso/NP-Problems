@@ -15,6 +15,7 @@ class Graph{
         int get_size();
         int get_adj_matrix(int,int);
         vector<int> get_visited();
+        int get_visited_sum();
         void set_size(int size);
         void set_adj_matrix(int,int,int);
         void set_visited(vector<int>);
@@ -47,6 +48,14 @@ void Graph::display_adj_matrix(){
 vector<int> Graph::get_visited(){
     return this->visited;
 }
+int Graph::get_visited_sum(){
+    int sum=0;
+    for(auto num : this->visited){
+        sum+=num;
+    }
+    return sum;
+}
+
 void Graph::set_size(int size){
     this->size = size;
 }
@@ -60,18 +69,44 @@ void Graph::set_visited(vector<int> visited){
 class TSP{
     private:
         Graph g;
-        vector<int[3]>  path;//node: 1->w:10->node: 2
+        vector<vector<int>>  path;//node: 1->w:10->node: 2
     public:
         TSP(Graph);
         void calculate_path();
         void print_shortest_path();
 };
 
-TSP::TSP(Graph g){
-    this->g = g;
+TSP::TSP(Graph new_g): g(0,0){
+    this->g = new_g;
 }
 void TSP::calculate_path(){
     // walk to adj_matrix
+    int min_weight = 9999;
+    int current_weight;
+    int row =0;
+    int next_row=-1;
+    cout<<"calculate_path"<<'\n';
+    //g.display_adj_matrix();
+    while(g.get_visited_sum()!=g.get_size()&& next_row!=0){
+        if(g.get_visited()[row]){
+            cout<<"calculate_path 3"<<'\n';
+            continue;
+        }
+        else{
+            cout<<"calculate_path 1"<<'\n';
+            for(int i=0;i<g.get_size();i++){
+                current_weight = g.get_adj_matrix(row,i);
+                if(current_weight<min_weight && g.get_visited()[row]==0){
+                    cout<<"calculate_path 2"<<'\n';
+                    min_weight = current_weight;
+                    next_row = i;
+                    cout<<"node: "<<row<<" weight: "<<min_weight<<" node: "<<next_row<<'\n';
+                }
+            }
+            row = next_row;
+        }
+    }
+        
     // find the minimun weigth with the node that is not visited
     // save the minimum weigth with node: 1->w:10->node: 2 in path
     // go to the next node
@@ -87,10 +122,15 @@ int main(){
     }
     Graph g(matrix_pointer, size); //how to send the memory address of a matrix?
     g.display_adj_matrix();
-    Graph g2(size, 0);
+    //Graph g2(size, 0);
+    cout<<"before t1 created"<<'\n';
+    TSP t1(g);
+    cout<<"after t1 created"<<'\n';
+    t1.calculate_path();
     return 0;
 }
 
+//g++ -std=c++11 01_complexity.cpp
 
 
 
